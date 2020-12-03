@@ -19,7 +19,6 @@ public class Incident {
 
     @ManyToOne
     private Utilisateur auteur;
-    private String type;
     private String titre;
 
     @ManyToOne
