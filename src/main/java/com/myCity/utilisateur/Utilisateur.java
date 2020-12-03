@@ -4,10 +4,7 @@ package com.myCity.utilisateur;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -15,12 +12,14 @@ import javax.persistence.Id;
 public class Utilisateur {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
-    String nom;
-    String prenom;
-    String email;
-    String mdp;
-    String role;
-    boolean alert;// Will my user will receives the alerts of incidents.
+    private int id;
+    private String nom;
+    private String prenom;
+    private String email;
+    private String mdp;
+    private String role;
+
+    @Column(nullable = true)
+    private boolean alert;// Will my user will receives the alerts of incidents.
 
 }
