@@ -1,13 +1,14 @@
 package com.myCity.incident;
 
-import com.myCity.categorie.Categorie;
 import com.myCity.categorie.CategorieRepository;
-import com.myCity.utilisateur.Utilisateur;
 import com.myCity.utilisateur.UtilisateurRepository;
-import org.hibernate.mapping.Set;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,19 +40,27 @@ public class IncidentController {
     public List<Incident> getIncidentByTitre(@PathVariable("titre") String titre) {
         return incidentRepository.findAllByTitreIsContaining(titre);
     }
+
     //incidents/utilisateur/1
     @GetMapping("/utilisateur/{utilisateurId}")
     public List<Incident> getIncidentByUtilisateurId(@PathVariable("utilisateurId") int utilisateurId) {
         return incidentRepository.findAllByAuteur(utilisateurRepository.findById(utilisateurId));
     }
+
     //incidents/categorie/1
     @GetMapping("/categorie/{categorieId}")
     public List<Incident> getIncidentByCategorieId(@PathVariable("categorieId") int categorieId) {
         return incidentRepository.findAllByCategorie(categorieRepository.findById(categorieId));
     }
+
     //incidents/statut/1
     @GetMapping("/statut/{statut}")
     public List<Incident> getIncidentByStatut(@PathVariable("statut") String statut) {
         return incidentRepository.findByStatut(statut);
+    }
+
+    @PostMapping(path = "/", consumes = "application/json", produces = "application/json")
+    public Incident addIncident(@RequestBody() Incident incident) {
+        return incident;
     }
 }
