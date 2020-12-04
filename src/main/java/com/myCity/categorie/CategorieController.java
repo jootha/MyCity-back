@@ -14,17 +14,21 @@ public class CategorieController {
     @Autowired
     private CategorieRepository categorieRepository;
 
+    //categories
     @GetMapping
     public Iterable<Categorie> getCategories() {
         return categorieRepository.findAll();
     }
 
+    //categories/1
     @GetMapping("/{categorieId}")
     public Optional<Categorie> getCategorie(@PathVariable("categorieId") int categorieId) {
         return categorieRepository.findById(categorieId);
     }
-    @GetMapping("/search")
-    public List<Categorie> getCategorie(@RequestParam String nom) {
+
+    //categories/nom/animal
+    @GetMapping("/nom/{nom}")
+    public List<Categorie> getCategorie(@PathVariable("nom") String nom) {
         return categorieRepository.findAllByNomIsContaining(nom);
     }
 }

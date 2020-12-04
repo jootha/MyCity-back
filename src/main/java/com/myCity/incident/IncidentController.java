@@ -34,9 +34,9 @@ public class IncidentController {
         return incidentRepository.findById(incidentId);
     }
 
-    //incidents/search/?titre=Shib
-    @GetMapping("/search")
-    public List<Incident> getIncident(@RequestParam String titre) {
+    //incidents/titre/Shib
+    @GetMapping("/titre/{titre}")
+    public List<Incident> getIncidentByTitre(@PathVariable("titre") String titre) {
         return incidentRepository.findAllByTitreIsContaining(titre);
     }
     //incidents/utilisateur/1
@@ -49,5 +49,9 @@ public class IncidentController {
     public List<Incident> getIncidentByCategorieId(@PathVariable("categorieId") int categorieId) {
         return incidentRepository.findAllByCategorie(categorieRepository.findById(categorieId));
     }
-
+    //incidents/statut/1
+    @GetMapping("/statut/{statut}")
+    public List<Incident> getIncidentByStatut(@PathVariable("statut") String statut) {
+        return incidentRepository.findByStatut(statut);
+    }
 }

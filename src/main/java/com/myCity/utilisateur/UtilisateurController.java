@@ -12,17 +12,32 @@ public class UtilisateurController {
     @Autowired
     private UtilisateurRepository utilisateurRepository;
 
+    //utilisateurs/
     @GetMapping
     public Iterable<Utilisateur> getUtilisateurs() {
         return utilisateurRepository.findAll();
     }
 
+    //utilisateurs/1
     @GetMapping("/{utilisateurId}")
     public Optional<Utilisateur> getUtilisateur(@PathVariable("utilisateurId") int utilisateurId) {
         return utilisateurRepository.findById(utilisateurId);
     }
-    @GetMapping("/search/")
-    public List<Utilisateur> getUtilisateursByNom(@RequestParam String nom){
+    //utilisateurs/nom/Zuck
+    @GetMapping("/nom/{utilisateurNom}")
+    public List<Utilisateur> getUtilisateursByNom(@PathVariable("utilisateurNom") String nom){
         return utilisateurRepository.findAllByNomIsContaining(nom);
+    }
+
+    //utilisateurs/prenom/Marck
+    @GetMapping("/prenom/{utilisateurPrenom}")
+    public List<Utilisateur> getUtilisateursByPrenom(@PathVariable("utilisateurPrenom") String prenom){
+        return utilisateurRepository.findByPrenomIsContaining(prenom);
+    }
+
+    //utilisateurs/email/zuck-marc@facebook.com
+    @GetMapping("/email/{utilisateurEmail}")
+    public Optional<Utilisateur> getUtilisateurByEmail(@PathVariable("utilisateurEmail") String email){
+        return utilisateurRepository.findByEmail(email);
     }
 }

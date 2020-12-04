@@ -16,4 +16,6 @@ public interface IncidentRepository extends JpaRepository<Incident, Integer> {
     List<Incident> findAllByAuteur(Optional<Utilisateur> utilisateur);
 
     List<Incident> findAllByCategorie(Optional<Categorie> categorie);
+
+    List<Incident> findByStatut(String statut);
 }
