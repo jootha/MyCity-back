@@ -1,12 +1,11 @@
 package com.myCity.categorie;
 
 
+import com.myCity.incident.Incident;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import com.myCity.categorie.*;
 @RestController
@@ -23,5 +22,9 @@ public class CategorieController {
     @GetMapping("/{categorieId}")
     public Optional<Categorie> getCategorie(@PathVariable("categorieId") int categorieId) {
         return categorieRepository.findById(categorieId);
+    }
+    @GetMapping("/search")
+    public List<Categorie> getCategorie(@RequestParam String nom) {
+        return categorieRepository.findAllByNomIsContaining(nom);
     }
 }

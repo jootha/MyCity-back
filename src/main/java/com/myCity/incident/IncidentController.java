@@ -1,28 +1,53 @@
 package com.myCity.incident;
 
+import com.myCity.categorie.Categorie;
+import com.myCity.categorie.CategorieRepository;
+import com.myCity.utilisateur.Utilisateur;
+import com.myCity.utilisateur.UtilisateurRepository;
+import org.hibernate.mapping.Set;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/incident")
+@RequestMapping(path = "/incidents")
 public class IncidentController {
 
     @Autowired
     private IncidentRepository incidentRepository;
+    @Autowired
+    private UtilisateurRepository utilisateurRepository;
+    @Autowired
+    private CategorieRepository categorieRepository;
 
     @GetMapping
     public Iterable<Incident> getIncidents() {
         return incidentRepository.findAll();
     }
 
+    //incidents/1
     @GetMapping("/{incidentId}")
     public Optional<Incident> getIncident(@PathVariable("incidentId") int incidentId) {
         return incidentRepository.findById(incidentId);
+    }
+
+    //incidents/search/?titre=Shib
+    @GetMapping("/search")
+    public List<Incident> getIncident(@RequestParam String titre) {
+        return incidentRepository.findAllByTitreIsContaining(titre);
+    }
+    //incidents/utilisateur/1
+    @GetMapping("/utilisateur/{utilisateurId}")
+    public List<Incident> getIncidentByUtilisateurId(@PathVariable("utilisateurId") int utilisateurId) {
+        return incidentRepository.findAllByAuteur(utilisateurRepository.findById(utilisateurId));
+    }
+    //incidents/categorie/1
+    @GetMapping("/categorie/{categorieId}")
+    public List<Incident> getIncidentByCategorieId(@PathVariable("categorieId") int categorieId) {
+        return incidentRepository.findAllByCategorie(categorieRepository.findById(categorieId));
     }
 
 }
